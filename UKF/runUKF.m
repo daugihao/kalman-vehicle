@@ -43,24 +43,30 @@ end
 
 figure
 hold on
-plot(data.time,data.truth.aSlipCar*180/pi)
-plot(data.time,xEst(1,:)*180/pi)
+f = [xEst(1,:)' + 2*sqrt(squeeze(PEst(1,1,:))); flipdim(xEst(1,:)' - 2*sqrt(squeeze(PEst(1,1,:))),1)];
+fill([data.time; flipdim(data.time,1)],f*180/pi,[7 7 7]/8)
+l1 = plot(data.time,data.truth.aSlipCar*180/pi);
+l2 = plot(data.time,xEst(1,:)*180/pi);
 xlabel('Time (s)')
 ylabel('Sideslip angle (deg)')
-legend('Actual','Estimate')
+legend([l1, l2],'Actual','Estimate')
 
 figure
 hold on
-plot([data.time(1) data.time(end)],[vehicleParams.Cf vehicleParams.Cf])
-plot(data.time,vehicleParams.Cf+xEst(3,:))
+f = [vehicleParams.Cf + xEst(3,:)' + 2*sqrt(squeeze(PEst(3,3,:))); flipdim(vehicleParams.Cf + xEst(3,:)' - 2*sqrt(squeeze(PEst(3,3,:))),1)];
+fill([data.time; flipdim(data.time,1)],f,[7 7 7]/8)
+l1 = plot([data.time(1) data.time(end)],[vehicleParams.Cf vehicleParams.Cf]);
+l2 = plot(data.time,vehicleParams.Cf+xEst(3,:));
 xlabel('Time (s)')
 ylabel('Front axle cornering stiffness (N/rad)')
-legend('Nominal','Estimate')
+legend([l1, l2],'Nominal','Estimate')
 
 figure
 hold on
-plot([data.time(1) data.time(end)],[vehicleParams.Cr vehicleParams.Cr])
-plot(data.time,vehicleParams.Cr+xEst(4,:))
+f = [vehicleParams.Cr + xEst(4,:)' + 2*sqrt(squeeze(PEst(4,4,:))); flipdim(vehicleParams.Cr + xEst(4,:)' - 2*sqrt(squeeze(PEst(4,4,:))),1)];
+fill([data.time; flipdim(data.time,1)],f,[7 7 7]/8)
+l1 = plot([data.time(1) data.time(end)],[vehicleParams.Cr vehicleParams.Cr]);
+l2 = plot(data.time,vehicleParams.Cr+xEst(4,:));
 xlabel('Time (s)')
 ylabel('Rear axle cornering stiffness (N/rad)')
-legend('Nominal','Estimate')
+legend([l1, l2], 'Nominal','Estimate')
